@@ -160,8 +160,7 @@
 
         <section anchor="busted" title="What to do when the CA's Publication Point is Distrusted">
             <t>
-            toss the publication point
-                blacklist the delegated resources
+                Once the RP has concluded the data at the publication point is distrusted, the RP MUST remove all VRPs encompassed by the IPAddrBlocks for which authority was delegated to the distrusted publication from its output, regardless of the Authoritative Trust Anchor.
             </t>
         </section>
 
