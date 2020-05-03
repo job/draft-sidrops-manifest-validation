@@ -380,11 +380,12 @@
 <link href="#rfc.section.4" rel="Chapter" title="4 Update to RFC 6486">
 <link href="#rfc.section.4.1" rel="Chapter" title="4.1 Tests for Determining Manifest State">
 <link href="#rfc.section.5" rel="Chapter" title="5 What to do when the CA's Publication Point is Distrusted">
-<link href="#rfc.section.6" rel="Chapter" title="6 Security Considerations">
-<link href="#rfc.section.7" rel="Chapter" title="7 IANA Considerations">
-<link href="#rfc.references" rel="Chapter" title="8 References">
-<link href="#rfc.references.1" rel="Chapter" title="8.1 Normative References">
-<link href="#rfc.references.2" rel="Chapter" title="8.2 Informative References">
+<link href="#rfc.section.6" rel="Chapter" title="6 TODO">
+<link href="#rfc.section.7" rel="Chapter" title="7 Security Considerations">
+<link href="#rfc.section.8" rel="Chapter" title="8 IANA Considerations">
+<link href="#rfc.references" rel="Chapter" title="9 References">
+<link href="#rfc.references.1" rel="Chapter" title="9.1 Normative References">
+<link href="#rfc.references.2" rel="Chapter" title="9.2 Informative References">
 <link href="#rfc.appendix.A" rel="Chapter" title="A Acknowledgements">
 <link href="#rfc.authors" rel="Chapter">
 
@@ -461,15 +462,17 @@
 </li>
 </ul><li>5.   <a href="#rfc.section.5">What to do when the CA's Publication Point is Distrusted</a>
 </li>
-<li>6.   <a href="#rfc.section.6">Security Considerations</a>
+<li>6.   <a href="#rfc.section.6">TODO</a>
 </li>
-<li>7.   <a href="#rfc.section.7">IANA Considerations</a>
+<li>7.   <a href="#rfc.section.7">Security Considerations</a>
 </li>
-<li>8.   <a href="#rfc.references">References</a>
+<li>8.   <a href="#rfc.section.8">IANA Considerations</a>
 </li>
-<ul><li>8.1.   <a href="#rfc.references.1">Normative References</a>
+<li>9.   <a href="#rfc.references">References</a>
 </li>
-<li>8.2.   <a href="#rfc.references.2">Informative References</a>
+<ul><li>9.1.   <a href="#rfc.references.1">Normative References</a>
+</li>
+<li>9.2.   <a href="#rfc.references.2">Informative References</a>
 </li>
 </ul><li>Appendix A.   <a href="#rfc.appendix.A">Acknowledgements</a>
 </li>
@@ -527,19 +530,30 @@
 <h1 id="rfc.section.5">
 <a href="#rfc.section.5">5.</a> <a href="#busted" id="busted">What to do when the CA's Publication Point is Distrusted</a>
 </h1>
-<p id="rfc.section.5.p.1">Once the RP has concluded the data at the publication point is distrusted, the RP MUST remove all VRPs encompassed by the IPAddrBlocks for which authority was delegated to the distrusted publication from its output, regardless of the Authoritative Trust Anchor.  </p>
+<p id="rfc.section.5.p.1">Once the RP has concluded the data at the publication point is distrusted, the RP MUST remove all VRPs encompassed by the IPAddrBlocks for which "right-of-use" authority was delegated to the CA at the distrusted publication from its output, regardless of the Trust Anchors.  </p>
 <h1 id="rfc.section.6">
-<a href="#rfc.section.6">6.</a> <a href="#Security" id="Security">Security Considerations</a>
+<a href="#rfc.section.6">6.</a> <a href="#TODO" id="TODO">TODO</a>
 </h1>
-<p id="rfc.section.6.p.1">Where to start...  </p>
+<p></p>
+
+<ul>
+<li>Mention RIR transfer cases </li>
+<li>The case for a most conservative approach: a 'fail-closed' policy on the RPKI plane results in an collective ability to deploy ROV on the shared EBGP plane: as the default remains 'fail open' (aka 'pre RPKI world'), operators in turn can deploy 'invalid == reject' policies on their EBGP sessions incrementally. A brilliant strategy, however it strongly depends erring to the side of caution (distrust?) in the validation process.  </li>
+</ul>
+
+<p> </p>
 <h1 id="rfc.section.7">
-<a href="#rfc.section.7">7.</a> <a href="#IANA" id="IANA">IANA Considerations</a>
+<a href="#rfc.section.7">7.</a> <a href="#Security" id="Security">Security Considerations</a>
 </h1>
-<p id="rfc.section.7.p.1">None </p>
+<p id="rfc.section.7.p.1">... where to start </p>
+<h1 id="rfc.section.8">
+<a href="#rfc.section.8">8.</a> <a href="#IANA" id="IANA">IANA Considerations</a>
+</h1>
+<p id="rfc.section.8.p.1">None </p>
 <h1 id="rfc.references">
-<a href="#rfc.references">8.</a> References</h1>
+<a href="#rfc.references">9.</a> References</h1>
 <h1 id="rfc.references.1">
-<a href="#rfc.references.1">8.1.</a> Normative References</h1>
+<a href="#rfc.references.1">9.1.</a> Normative References</h1>
 <table><tbody>
 <tr>
 <td class="reference"><b id="RFC2119">[RFC2119]</b></td>
@@ -583,7 +597,7 @@
 </tr>
 </tbody></table>
 <h1 id="rfc.references.2">
-<a href="#rfc.references.2">8.2.</a> Informative References</h1>
+<a href="#rfc.references.2">9.2.</a> Informative References</h1>
 <table><tbody><tr>
 <td class="reference"><b id="RFC6480">[RFC6480]</b></td>
 <td class="top">

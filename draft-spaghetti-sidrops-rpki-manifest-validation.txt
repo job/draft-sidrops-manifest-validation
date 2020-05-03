@@ -83,13 +83,14 @@ Table of Contents
    4.  Update to RFC 6486  . . . . . . . . . . . . . . . . . . . . .   3
      4.1.  Tests for Determining Manifest State  . . . . . . . . . .   4
    5.  What to do when the CA's Publication Point is Distrusted  . .   5
-   6.  Security Considerations . . . . . . . . . . . . . . . . . . .   5
-   7.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   5
-   8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   5
-     8.1.  Normative References  . . . . . . . . . . . . . . . . . .   5
-     8.2.  Informative References  . . . . . . . . . . . . . . . . .   6
-   Appendix A.  Acknowledgements . . . . . . . . . . . . . . . . . .   6
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   6
+   6.  TODO  . . . . . . . . . . . . . . . . . . . . . . . . . . . .   5
+   7.  Security Considerations . . . . . . . . . . . . . . . . . . .   5
+   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   5
+   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   5
+     9.1.  Normative References  . . . . . . . . . . . . . . . . . .   5
+     9.2.  Informative References  . . . . . . . . . . . . . . . . .   6
+   Appendix A.  Acknowledgements . . . . . . . . . . . . . . . . . .   7
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   7
 
 1.  Introduction
 
@@ -105,7 +106,6 @@ Table of Contents
    This document updates RFC 6486 and introduces the notion of a global
    policy for Manifest validation to encourage harmony between
    implementations.
-
 
 
 
@@ -243,21 +243,44 @@ Internet-Draft        RPKI Default Manifest Policy              May 2020
 
    Once the RP has concluded the data at the publication point is
    distrusted, the RP MUST remove all VRPs encompassed by the
-   IPAddrBlocks for which authority was delegated to the distrusted
-   publication from its output, regardless of the Authoritative Trust
-   Anchor.
+   IPAddrBlocks for which "right-of-use" authority was delegated to the
+   CA at the distrusted publication from its output, regardless of the
+   Trust Anchors.
 
-6.  Security Considerations
+6.  TODO
 
-   Where to start...
+   o  Mention RIR transfer cases
 
-7.  IANA Considerations
+   o  The case for a most conservative approach: a 'fail-closed' policy
+      on the RPKI plane results in an collective ability to deploy ROV
+      on the shared EBGP plane: as the default remains 'fail open' (aka
+      'pre RPKI world'), operators in turn can deploy 'invalid ==
+      reject' policies on their EBGP sessions incrementally.  A
+      brilliant strategy, however it strongly depends erring to the side
+      of caution (distrust?) in the validation process.
+
+7.  Security Considerations
+
+   ... where to start
+
+8.  IANA Considerations
 
    None
 
-8.  References
+9.  References
 
-8.1.  Normative References
+9.1.  Normative References
+
+
+
+
+
+
+
+Snijders                Expires November 4, 2020                [Page 5]
+
+Internet-Draft        RPKI Default Manifest Policy              May 2020
+
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -273,14 +296,6 @@ Internet-Draft        RPKI Default Manifest Policy              May 2020
               Origin Authorizations (ROAs)", RFC 6482,
               DOI 10.17487/RFC6482, February 2012,
               <https://www.rfc-editor.org/info/rfc6482>.
-
-
-
-
-Snijders                Expires November 4, 2020                [Page 5]
-
-Internet-Draft        RPKI Default Manifest Policy              May 2020
-
 
    [RFC6486]  Austein, R., Huston, G., Kent, S., and M. Lepinski,
               "Manifests for the Resource Public Key Infrastructure
@@ -306,11 +321,22 @@ Internet-Draft        RPKI Default Manifest Policy              May 2020
               DOI 10.17487/RFC8481, September 2018,
               <https://www.rfc-editor.org/info/rfc8481>.
 
-8.2.  Informative References
+9.2.  Informative References
 
    [RFC6480]  Lepinski, M. and S. Kent, "An Infrastructure to Support
               Secure Internet Routing", RFC 6480, DOI 10.17487/RFC6480,
               February 2012, <https://www.rfc-editor.org/info/rfc6480>.
+
+
+
+
+
+
+
+Snijders                Expires November 4, 2020                [Page 6]
+
+Internet-Draft        RPKI Default Manifest Policy              May 2020
+
 
 Appendix A.  Acknowledgements
 
@@ -333,4 +359,34 @@ Author's Address
 
 
 
-Snijders                Expires November 4, 2020                [Page 6]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Snijders                Expires November 4, 2020                [Page 7]

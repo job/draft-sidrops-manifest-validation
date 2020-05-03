@@ -160,16 +160,28 @@
 
         <section anchor="busted" title="What to do when the CA's Publication Point is Distrusted">
             <t>
-                Once the RP has concluded the data at the publication point is distrusted, the RP MUST remove all VRPs encompassed by the IPAddrBlocks for which authority was delegated to the distrusted publication from its output, regardless of the Authoritative Trust Anchor.
+                Once the RP has concluded the data at the publication point is distrusted, the RP MUST remove all VRPs encompassed by the IPAddrBlocks for which "right-of-use" authority was delegated to the CA at the distrusted publication from its output, regardless of the Trust Anchors.
             </t>
         </section>
 
-        <section anchor="Security" title="Security Considerations">
-
+        <section anchor="TODO" title="TODO">
             <t>
-                Where to start...
+                <list style="symbols">
+                    <t>
+                        Mention RIR transfer cases
+                    </t>
+                    <t>
+                        The case for a most conservative approach: a 'fail-closed' policy on the RPKI plane results in an collective ability to deploy ROV on the shared EBGP plane: as the default remains 'fail open' (aka 'pre RPKI world'), operators in turn can deploy 'invalid == reject' policies on their EBGP sessions incrementally. A brilliant strategy, however it strongly depends erring to the side of caution (distrust?) in the validation process.
+                    </t>
+                </list>
             </t>
+        </section>
 
+
+        <section anchor="Security" title="Security Considerations">
+            <t>
+                ... where to start 
+            </t>
         </section>
 
         <section anchor="IANA" title="IANA Considerations">
