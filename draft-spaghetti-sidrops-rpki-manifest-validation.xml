@@ -85,7 +85,7 @@
                 Only a single path through the RFC 6486 decision tree is suitable for use in the global Internet system, as such that path is the Default Policy.
             </t>
             <t>
-                If a dangerous condition is detected, not only MUST the manifest at the publication point be distrusted, but all VRPs encompassed by the IPAddrBlocks for which authority was delegated towards the busted pulication point be removed from the RP's output.
+                If a dangerous condition is detected, not only MUST the manifest at the publication point be distrusted, but all VRPs encompassed by the IPAddrBlocks for which authority was delegated towards the Certificate Authority (CA) at the busted pulication point be removed from the RP's output.
                 If the result is no VRPs at all (for example because the RPKI subsystem is detected to be compromised at the root), that is a preferred state for the Internet routing system.
                 The alternative is that a compromised RPKI system will permanently disrupt the global Internet routing system.
             </t>
@@ -97,7 +97,7 @@
             </t>
             <t>
                 The goal of an Relying Party (RP) is to determine which signed objects to use for validating assertions about INRs and their use (e.g., which VRPs to use in the construction of route filters).
-                The global Internet routing system is expected to benefit from a uniform policy, as such in the following sections we describe a sequence of tests that the RP MUST perform to determine the manifest state of the given publication point according to the default policy.
+                The global Internet routing system is expected to benefit from uniform application of a similar validation policy, as such in the following sections we describe a sequence of tests that the RP MUST perform to determine the manifest state of the given publication point according to the default policy.
                 We then discuss the risks associated with using signed objects in the publication point, given the manifest state; we also provide suitable warning text that SHOULD be placed in a user-accessible log file.
                 Note that if a certificate is deemed unfit for use due to default policy, then any signed object that is validated using this certificate also SHOULD be deemed unfit for use (regardless of the status of the manifest at its own publication point).
             </t>
@@ -109,28 +109,32 @@
                     <list style="numbers">
                         <t>
                             For each CA using this publication point, select the CA's current manifest (the "current" manifest is the manifest issued by this CA having the highest manifestNumber among all valid manifests, and where manifest validity is defined in <xref target="RFC6486">Section 4.4</xref>.
-                            If the publication point does not contain a valid manifest, see Section 6.2.  Lacking a valid manifest, the following tests cannot be performed.
+                            If the publication point does not contain a valid manifest, see <xref target="busted"/>.
+                            Lacking a valid manifest, the following tests cannot be performed.
                         </t>
                         <t>
-                            To verify completeness, an RP MAY check that every file at each publication point appears in one and only one current manifest, and that every file listed in a current manifest is published at the same publication point as the manifest.
+                            To verify completeness, an RP MUST check that every file at each publication point appears in one and only one current manifest, and that every file listed in a current manifest is published at the same publication point as the manifest.
                         </t>
                         <t>
-                            If there exist files at the publication point that do not appear on any manifest, or files listed in a manifest that do not appear at the publication point, then see Section 6.5, but still continue with the following test.
+                            If files exist at the publication point that do not appear on any manifest, those can be ignored.
+                        </t>
+                        <t>
+                            If files are listed in a manifest that do not appear at the publication point, see <xref target="busted" />.
                         </t>
                         <t>
                             Check that the current time (translated to UTC) is between thisUpdate and nextUpdate.
-                            If the current time does not lie within this interval, then see Section 6.4, but still continue with the following tests.
+                            If the current time does not lie within this interval, then see <xref target="busted" />, but still continue with the following tests.
                         </t>
                         <t>
                             Verify that the listed hash value of every file listed in each manifest matches the value obtained by hashing the file at the publication point.
-                            If the computed hash value of a file listed on the manifest does not match the hash value contained in the manifest, then see Section 6.6
+                            If the computed hash value of a file listed on the manifest does not match the hash value contained in the manifest, then see <xref target="busted" />.
                         </t>
                         <t>
-                            An RP MAY check that the contents of each current manifest conforms to the manifest's scope constraints, as specified in Section 2.
+                            An RP MUST check that the contents of each current manifest conforms to the manifest's scope constraints, as specified in Section 2.
                         </t>
                         <t>
                             If a current manifest contains entries for objects that are not within the scope of the manifest, then the out-of-scope entries SHOULD be disregarded in the context of this manifest.
-                            If there is no other current manifest that describes these objects within that other manifest's scope, then see Section 6.2.
+                            If there is no other current manifest that describes these objects within that other manifest's scope, then see  <xref target="busted" />.
                         </t>
                     </list>
                 </t>
@@ -152,33 +156,13 @@
                     then the RP can conclude that no attack against the repository system has compromised the given signed object, and the signed object MUST be treated as valid (relative to manifest checking).
                 </t>
             </section>
-            <section title="Missing Manifests">
-                <t>
-                toss the publication point
-                    blacklist the delegated resources
-                </t>
-            </section>
-            <section title="Invalid Manifests">
-                <t>
-                toss the publication point
-                    blacklist the delegated resources
-                </t>
-            </section>
-            <section title="Stale Manifests">
-                <t>
-                    tosssss it
-                </t>
-            </section>
-            <section title="Mismatch between Manifest and Publication Point">
-                <t>
-                    ????
-                </t>
-            </section>
-            <section title="Mismatch between Manifest and Publication Point">
-                <t>
-                    toss it
-                </t>
-            </section>
+        </section>
+
+        <section anchor="busted" title="What to do when the CA's Publication Point is Distrusted">
+            <t>
+            toss the publication point
+                blacklist the delegated resources
+            </t>
         </section>
 
         <section anchor="Security" title="Security Considerations">

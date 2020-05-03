@@ -82,18 +82,14 @@ Table of Contents
    3.  The Problem . . . . . . . . . . . . . . . . . . . . . . . . .   3
    4.  Update to RFC 6486  . . . . . . . . . . . . . . . . . . . . .   3
      4.1.  Tests for Determining Manifest State  . . . . . . . . . .   4
-     4.2.  Missing Manifests . . . . . . . . . . . . . . . . . . . .   5
-     4.3.  Invalid Manifests . . . . . . . . . . . . . . . . . . . .   5
-     4.4.  Stale Manifests . . . . . . . . . . . . . . . . . . . . .   5
-     4.5.  Mismatch between Manifest and Publication Point . . . . .   5
-     4.6.  Mismatch between Manifest and Publication Point . . . . .   5
-   5.  Security Considerations . . . . . . . . . . . . . . . . . . .   5
-   6.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   5
-   7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   5
-     7.1.  Normative References  . . . . . . . . . . . . . . . . . .   5
-     7.2.  Informative References  . . . . . . . . . . . . . . . . .   6
-   Appendix A.  Acknowledgements . . . . . . . . . . . . . . . . . .   7
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   7
+   5.  What to do when the CA's Publication Point is Distrusted  . .   5
+   6.  Security Considerations . . . . . . . . . . . . . . . . . . .   5
+   7.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   5
+   8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   5
+     8.1.  Normative References  . . . . . . . . . . . . . . . . . .   5
+     8.2.  Informative References  . . . . . . . . . . . . . . . . .   6
+   Appendix A.  Acknowledgements . . . . . . . . . . . . . . . . . .   6
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   6
 
 1.  Introduction
 
@@ -106,6 +102,10 @@ Table of Contents
    output when presented with the same input, but also operational
    security implications.
 
+   This document updates RFC 6486 and introduces the notion of a global
+   policy for Manifest validation to encourage harmony between
+   implementations.
+
 
 
 
@@ -113,10 +113,6 @@ Snijders                Expires November 4, 2020                [Page 2]
 
 Internet-Draft        RPKI Default Manifest Policy              May 2020
 
-
-   This document updates RFC 6486 and introduces the notion of a global
-   policy for Manifest validation to encourage harmony between
-   implementations.
 
 2.  Suggested Reading
 
@@ -139,12 +135,13 @@ Internet-Draft        RPKI Default Manifest Policy              May 2020
 
    If a dangerous condition is detected, not only MUST the manifest at
    the publication point be distrusted, but all VRPs encompassed by the
-   IPAddrBlocks for which authority was delegated towards the busted
-   pulication point be removed from the RP's output.  If the result is
-   no VRPs at all (for example because the RPKI subsystem is detected to
-   be compromised at the root), that is a preferred state for the
-   Internet routing system.  The alternative is that a compromised RPKI
-   system will permanently disrupt the global Internet routing system.
+   IPAddrBlocks for which authority was delegated towards the
+   Certificate Authority (CA) at the busted pulication point be removed
+   from the RP's output.  If the result is no VRPs at all (for example
+   because the RPKI subsystem is detected to be compromised at the
+   root), that is a preferred state for the Internet routing system.
+   The alternative is that a compromised RPKI system will permanently
+   disrupt the global Internet routing system.
 
 4.  Update to RFC 6486
 
@@ -153,15 +150,18 @@ Internet-Draft        RPKI Default Manifest Policy              May 2020
    The goal of an Relying Party (RP) is to determine which signed
    objects to use for validating assertions about INRs and their use
    (e.g., which VRPs to use in the construction of route filters).  The
-   global Internet routing system is expected to benefit from a uniform
-   policy, as such in the following sections we describe a sequence of
-   tests that the RP MUST perform to determine the manifest state of the
-   given publication point according to the default policy.  We then
-   discuss the risks associated with using signed objects in the
-   publication point, given the manifest state; we also provide suitable
-   warning text that SHOULD be placed in a user-accessible log file.
-   Note that if a certificate is deemed unfit for use due to default
-   policy, then any signed object that is validated using this
+   global Internet routing system is expected to benefit from uniform
+   application of a similar validation policy, as such in the following
+   sections we describe a sequence of tests that the RP MUST perform to
+   determine the manifest state of the given publication point according
+   to the default policy.  We then discuss the risks associated with
+   using signed objects in the publication point, given the manifest
+   state; we also provide suitable warning text that SHOULD be placed in
+   a user-accessible log file.  Note that if a certificate is deemed
+   unfit for use due to default policy, then any signed object that is
+   validated using this certificate also SHOULD be deemed unfit for use
+   (regardless of the status of the manifest at its own publication
+   point).
 
 
 
@@ -169,9 +169,6 @@ Snijders                Expires November 4, 2020                [Page 3]
 
 Internet-Draft        RPKI Default Manifest Policy              May 2020
 
-
-   certificate also SHOULD be deemed unfit for use (regardless of the
-   status of the manifest at its own publication point).
 
 4.1.  Tests for Determining Manifest State
 
@@ -183,41 +180,44 @@ Internet-Draft        RPKI Default Manifest Policy              May 2020
        CA having the highest manifestNumber among all valid manifests,
        and where manifest validity is defined in Section 4.4 [RFC6486].
        If the publication point does not contain a valid manifest, see
-       Section 6.2.  Lacking a valid manifest, the following tests
-       cannot be performed.
+       Section 5.  Lacking a valid manifest, the following tests cannot
+       be performed.
 
-   2.  To verify completeness, an RP MAY check that every file at each
+   2.  To verify completeness, an RP MUST check that every file at each
        publication point appears in one and only one current manifest,
        and that every file listed in a current manifest is published at
        the same publication point as the manifest.
 
-   3.  If there exist files at the publication point that do not appear
-       on any manifest, or files listed in a manifest that do not appear
-       at the publication point, then see Section 6.5, but still
-       continue with the following test.
+   3.  If files exist at the publication point that do not appear on any
+       manifest, those can be ignored.
 
-   4.  Check that the current time (translated to UTC) is between
+   4.  If files are listed in a manifest that do not appear at the
+       publication point, see Section 5.
+
+   5.  Check that the current time (translated to UTC) is between
        thisUpdate and nextUpdate.  If the current time does not lie
-       within this interval, then see Section 6.4, but still continue
-       with the following tests.
+       within this interval, then see Section 5, but still continue with
+       the following tests.
 
-   5.  Verify that the listed hash value of every file listed in each
+   6.  Verify that the listed hash value of every file listed in each
        manifest matches the value obtained by hashing the file at the
        publication point.  If the computed hash value of a file listed
        on the manifest does not match the hash value contained in the
-       manifest, then see Section 6.6
+       manifest, then see Section 5.
 
-   6.  An RP MAY check that the contents of each current manifest
+   7.  An RP MUST check that the contents of each current manifest
        conforms to the manifest's scope constraints, as specified in
        Section 2.
 
-   7.  If a current manifest contains entries for objects that are not
+   8.  If a current manifest contains entries for objects that are not
        within the scope of the manifest, then the out-of-scope entries
        SHOULD be disregarded in the context of this manifest.  If there
        is no other current manifest that describes these objects within
-       that other manifest's scope, then see Section 6.2.
+       that other manifest's scope, then see Section 5.
 
    For each signed object, if all of the following conditions hold:
+
+
 
 
 
@@ -239,48 +239,21 @@ Internet-Draft        RPKI Default Manifest Policy              May 2020
    has compromised the given signed object, and the signed object MUST
    be treated as valid (relative to manifest checking).
 
-4.2.  Missing Manifests
+5.  What to do when the CA's Publication Point is Distrusted
 
    toss the publication point blacklist the delegated resources
 
-4.3.  Invalid Manifests
-
-   toss the publication point blacklist the delegated resources
-
-4.4.  Stale Manifests
-
-   tosssss it
-
-4.5.  Mismatch between Manifest and Publication Point
-
-   ????
-
-4.6.  Mismatch between Manifest and Publication Point
-
-   toss it
-
-5.  Security Considerations
+6.  Security Considerations
 
    Where to start...
 
-6.  IANA Considerations
+7.  IANA Considerations
 
    None
 
-7.  References
+8.  References
 
-7.1.  Normative References
-
-
-
-
-
-
-
-Snijders                Expires November 4, 2020                [Page 5]
-
-Internet-Draft        RPKI Default Manifest Policy              May 2020
-
+8.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -302,6 +275,13 @@ Internet-Draft        RPKI Default Manifest Policy              May 2020
               (RPKI)", RFC 6486, DOI 10.17487/RFC6486, February 2012,
               <https://www.rfc-editor.org/info/rfc6486>.
 
+
+
+Snijders                Expires November 4, 2020                [Page 5]
+
+Internet-Draft        RPKI Default Manifest Policy              May 2020
+
+
    [RFC6811]  Mohapatra, P., Scudder, J., Ward, D., Bush, R., and R.
               Austein, "BGP Prefix Origin Validation", RFC 6811,
               DOI 10.17487/RFC6811, January 2013,
@@ -321,22 +301,11 @@ Internet-Draft        RPKI Default Manifest Policy              May 2020
               DOI 10.17487/RFC8481, September 2018,
               <https://www.rfc-editor.org/info/rfc8481>.
 
-7.2.  Informative References
+8.2.  Informative References
 
    [RFC6480]  Lepinski, M. and S. Kent, "An Infrastructure to Support
               Secure Internet Routing", RFC 6480, DOI 10.17487/RFC6480,
               February 2012, <https://www.rfc-editor.org/info/rfc6480>.
-
-
-
-
-
-
-
-Snijders                Expires November 4, 2020                [Page 6]
-
-Internet-Draft        RPKI Default Manifest Policy              May 2020
-
 
 Appendix A.  Acknowledgements
 
@@ -364,29 +333,4 @@ Author's Address
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Snijders                Expires November 4, 2020                [Page 7]
+Snijders                Expires November 4, 2020                [Page 6]
