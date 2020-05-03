@@ -5,7 +5,7 @@
 <head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
   <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
 
-  <title>A Global Validation Policy for the use of RPKI Manifests in the Internet Routing System.  </title>
+  <title>A Default Validation Policy for the use of RPKI Manifests in the global Internet Routing System.  </title>
 
   <style type="text/css" title="Xml2Rfc (sans serif)">
   /*<![CDATA[*/
@@ -430,7 +430,7 @@
     </tbody>
   </table>
 
-  <p class="title">A Global Validation Policy for the use of RPKI Manifests in the Internet Routing System.  <br />
+  <p class="title">A Default Validation Policy for the use of RPKI Manifests in the global Internet Routing System.  <br />
   <span class="filename">draft-spaghetti-sidrops-rpki-manifest-validation-00</span></p>
   
   <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
@@ -503,12 +503,12 @@
 <p id="rfc.section.2.p.1">It is assumed that the reader understands BGP, <a href="#RFC4271" class="xref">[RFC4271]</a>, the RPKI <a href="#RFC6480" class="xref">[RFC6480]</a>, Route Origin Authorizations (ROAs) <a href="#RFC6482" class="xref">[RFC6482]</a>, RPKI-based Prefix Validation, <a href="#RFC6811" class="xref">[RFC6811]</a>, and Origin Validation Clarifications <a href="#RFC8481" class="xref">[RFC8481]</a>.  </p>
 <h1 id="rfc.section.3">
 <a href="#rfc.section.3">3.</a> The Problem</h1>
-<p id="rfc.section.3.p.1">It seems there is a mental trap in the RPKI system: contrary to intuition, implementers should focus on validation policies which minimize the number of Validated ROA Payloads (VRPs) at a RPKI cache.  If RPKI cache implementers mistreat untrusted network data and 'salvage whatever is possible', a number of critical issues are introduced which compromise our ability to deploy RPKI ROV incrementally.  Only a single path through the RFC 6486 decision tree is suitable for use in the global Internet system, as such that path is the Global Policy.  </p>
+<p id="rfc.section.3.p.1">It seems there is a mental trap in the RPKI system: contrary to intuition, implementers should focus on validation policies which minimize the number of Validated ROA Payloads (VRPs) at a RPKI cache.  If RPKI cache implementers mistreat untrusted network data and 'salvage whatever is possible', a number of critical issues are introduced which compromise our ability to deploy RPKI ROV incrementally.  Only a single path through the RFC 6486 decision tree is suitable for use in the global Internet system, as such that path is the Default Policy.  </p>
 <p id="rfc.section.3.p.2">If a dangerous condition is detected, not only MUST the manifest at the publication point be distrusted, but all VRPs encompassed by the IPAddrBlocks for which authority was delegated towards the busted pulication point be removed from the RP's output.  If the result is no VRPs at all (for example because the RPKI subsystem is detected to be compromised at the root), that is a preferred state for the Internet routing system.  The alternative is that a compromised RPKI system will permanently disrupt the global Internet routing system.  </p>
 <h1 id="rfc.section.4">
 <a href="#rfc.section.4">4.</a> Update to RFC 6486</h1>
 <p id="rfc.section.4.p.1">This section replaces section 6 of <a href="#RFC6486" class="xref">[RFC6486]</a> in its entirety.  </p>
-<p id="rfc.section.4.p.2">The goal of an Relying Party (RP) is to determine which signed objects to use for validating assertions about INRs and their use (e.g., which VRPs to use in the construction of route filters).  The global Internet routing system is expected to benefit from a uniform policy, as such in the following sections we describe a sequence of tests that the RP MUST perform to determine the manifest state of the given publication point according to the global policy.  We then discuss the risks associated with using signed objects in the publication point, given the manifest state; we also provide suitable warning text that SHOULD be placed in a user-accessible log file.  Note that if a certificate is deemed unfit for use due to global policy, then any signed object that is validated using this certificate also SHOULD be deemed unfit for use (regardless of the status of the manifest at its own publication point).  </p>
+<p id="rfc.section.4.p.2">The goal of an Relying Party (RP) is to determine which signed objects to use for validating assertions about INRs and their use (e.g., which VRPs to use in the construction of route filters).  The global Internet routing system is expected to benefit from a uniform policy, as such in the following sections we describe a sequence of tests that the RP MUST perform to determine the manifest state of the given publication point according to the default policy.  We then discuss the risks associated with using signed objects in the publication point, given the manifest state; we also provide suitable warning text that SHOULD be placed in a user-accessible log file.  Note that if a certificate is deemed unfit for use due to default policy, then any signed object that is validated using this certificate also SHOULD be deemed unfit for use (regardless of the status of the manifest at its own publication point).  </p>
 <h1 id="rfc.section.4.1">
 <a href="#rfc.section.4.1">4.1.</a> Tests for Determining Manifest State</h1>
 <p id="rfc.section.4.1.p.1">For a given publication point, the RP MUST perform the following tests to determine the manifest state of the publication point: </p>

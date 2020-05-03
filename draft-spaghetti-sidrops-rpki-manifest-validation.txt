@@ -8,8 +8,8 @@ Intended status: Informational                               May 3, 2020
 Expires: November 4, 2020
 
 
-A Global Validation Policy for the use of RPKI Manifests in the Internet
-                            Routing System.
+A Default Validation Policy for the use of RPKI Manifests in the global
+                        Internet Routing System.
           draft-spaghetti-sidrops-rpki-manifest-validation-00
 
 Abstract
@@ -55,7 +55,7 @@ Status of This Memo
 
 Snijders                Expires November 4, 2020                [Page 1]
 
-Internet-Draft            RPKI Manifest Policy                  May 2020
+Internet-Draft        RPKI Default Manifest Policy              May 2020
 
 
    This Internet-Draft will expire on November 4, 2020.
@@ -111,7 +111,7 @@ Table of Contents
 
 Snijders                Expires November 4, 2020                [Page 2]
 
-Internet-Draft            RPKI Manifest Policy                  May 2020
+Internet-Draft        RPKI Default Manifest Policy              May 2020
 
 
    This document updates RFC 6486 and introduces the notion of a global
@@ -135,7 +135,7 @@ Internet-Draft            RPKI Manifest Policy                  May 2020
    introduced which compromise our ability to deploy RPKI ROV
    incrementally.  Only a single path through the RFC 6486 decision tree
    is suitable for use in the global Internet system, as such that path
-   is the Global Policy.
+   is the Default Policy.
 
    If a dangerous condition is detected, not only MUST the manifest at
    the publication point be distrusted, but all VRPs encompassed by the
@@ -156,18 +156,18 @@ Internet-Draft            RPKI Manifest Policy                  May 2020
    global Internet routing system is expected to benefit from a uniform
    policy, as such in the following sections we describe a sequence of
    tests that the RP MUST perform to determine the manifest state of the
-   given publication point according to the global policy.  We then
+   given publication point according to the default policy.  We then
    discuss the risks associated with using signed objects in the
    publication point, given the manifest state; we also provide suitable
    warning text that SHOULD be placed in a user-accessible log file.
-   Note that if a certificate is deemed unfit for use due to global
+   Note that if a certificate is deemed unfit for use due to default
    policy, then any signed object that is validated using this
 
 
 
 Snijders                Expires November 4, 2020                [Page 3]
 
-Internet-Draft            RPKI Manifest Policy                  May 2020
+Internet-Draft        RPKI Default Manifest Policy              May 2020
 
 
    certificate also SHOULD be deemed unfit for use (regardless of the
@@ -223,7 +223,7 @@ Internet-Draft            RPKI Manifest Policy                  May 2020
 
 Snijders                Expires November 4, 2020                [Page 4]
 
-Internet-Draft            RPKI Manifest Policy                  May 2020
+Internet-Draft        RPKI Default Manifest Policy              May 2020
 
 
       the manifest for its publication and the associated publication
@@ -279,7 +279,7 @@ Internet-Draft            RPKI Manifest Policy                  May 2020
 
 Snijders                Expires November 4, 2020                [Page 5]
 
-Internet-Draft            RPKI Manifest Policy                  May 2020
+Internet-Draft        RPKI Default Manifest Policy              May 2020
 
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
@@ -335,7 +335,7 @@ Internet-Draft            RPKI Manifest Policy                  May 2020
 
 Snijders                Expires November 4, 2020                [Page 6]
 
-Internet-Draft            RPKI Manifest Policy                  May 2020
+Internet-Draft        RPKI Default Manifest Policy              May 2020
 
 
 Appendix A.  Acknowledgements
