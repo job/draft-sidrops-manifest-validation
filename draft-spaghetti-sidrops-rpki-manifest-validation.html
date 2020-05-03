@@ -495,7 +495,7 @@
 <h1 id="rfc.section.3">
 <a href="#rfc.section.3">3.</a> The Problem</h1>
 <p id="rfc.section.3.p.1">It seems there is a mental trap in the RPKI system: contrary to intuition, implementers should focus on validation policies which minimize the number of Validated ROA Payloads (VRPs) at a RPKI cache.  If RPKI cache implementers mistreat untrusted network data and 'salvage whatever is possible', a number of critical issues are introduced which compromise our ability to deploy RPKI ROV incrementally.  Only a single path through the RFC 6486 decision tree is suitable for use in the global Internet system, as such that path is the Default Policy.  </p>
-<p id="rfc.section.3.p.2">If a dangerous condition is detected, not only MUST the manifest at the publication point be distrusted, but all VRPs encompassed by the IPAddrBlocks for which authority was delegated towards the Certificate Authority (CA) at the busted pulication point be removed from the RP's output.  If the result is no VRPs at all (for example because the RPKI subsystem is detected to be compromised at the root), that is a preferred state for the Internet routing system.  The alternative is that a compromised RPKI system will permanently disrupt the global Internet routing system.  </p>
+<p id="rfc.section.3.p.2">If a dangerous condition is detected, not only MUST the manifest at the publication point be distrusted, but all VRPs encompassed by the IPAddrBlocks for which authority was delegated towards the Certificate Authority (CA) at the distrusted pulication point be removed from the RP's output.  If the result is no VRPs at all (for example because the RPKI subsystem is detected to be compromised at the root), that is a preferred state for the Internet routing system.  The alternative is that a compromised RPKI system will permanently disrupt the global Internet routing system.  </p>
 <h1 id="rfc.section.4">
 <a href="#rfc.section.4">4.</a> Update to RFC 6486</h1>
 <p id="rfc.section.4.p.1">This section replaces section 6 of <a href="#RFC6486" class="xref">[RFC6486]</a> in its entirety.  </p>
@@ -506,14 +506,14 @@
 <p></p>
 
 <ol>
-<li>For each CA using this publication point, select the CA's current manifest (the "current" manifest is the manifest issued by this CA having the highest manifestNumber among all valid manifests, and where manifest validity is defined in <a href="#RFC6486" class="xref">Section 4.4</a>.  If the publication point does not contain a valid manifest, see <a href="#busted" class="xref">Section 5</a>.  Lacking a valid manifest, the following tests cannot be performed.  </li>
+<li>For each CA using this publication point, select the CA's current manifest (the "current" manifest is the manifest issued by this CA having the highest manifestNumber among all valid manifests, and where manifest validity is defined in <a href="#RFC6486" class="xref">Section 4.4</a>.  If the publication point does not contain a valid manifest, see <a href="#distrusted" class="xref">Section 5</a>.  Lacking a valid manifest, the following tests cannot be performed.  </li>
 <li>To verify completeness, an RP MUST check that every file at each publication point appears in one and only one current manifest, and that every file listed in a current manifest is published at the same publication point as the manifest.  </li>
 <li>If files exist at the publication point that do not appear on any manifest, those can be ignored.  </li>
-<li>If files are listed in a manifest that do not appear at the publication point, see <a href="#busted" class="xref">Section 5</a>.  </li>
-<li>Check that the current time (translated to UTC) is between thisUpdate and nextUpdate.  If the current time does not lie within this interval, then see <a href="#busted" class="xref">Section 5</a>, but still continue with the following tests.  </li>
-<li>Verify that the listed hash value of every file listed in each manifest matches the value obtained by hashing the file at the publication point.  If the computed hash value of a file listed on the manifest does not match the hash value contained in the manifest, then see <a href="#busted" class="xref">Section 5</a>.  </li>
+<li>If files are listed in a manifest that do not appear at the publication point, see <a href="#distrusted" class="xref">Section 5</a>.  </li>
+<li>Check that the current time (translated to UTC) is between thisUpdate and nextUpdate.  If the current time does not lie within this interval, then see <a href="#distrusted" class="xref">Section 5</a>, but still continue with the following tests.  </li>
+<li>Verify that the listed hash value of every file listed in each manifest matches the value obtained by hashing the file at the publication point.  If the computed hash value of a file listed on the manifest does not match the hash value contained in the manifest, then see <a href="#distrusted" class="xref">Section 5</a>.  </li>
 <li>An RP MUST check that the contents of each current manifest conforms to the manifest's scope constraints, as specified in Section 2.  </li>
-<li>If a current manifest contains entries for objects that are not within the scope of the manifest, then the out-of-scope entries SHOULD be disregarded in the context of this manifest.  If there is no other current manifest that describes these objects within that other manifest's scope, then see  <a href="#busted" class="xref">Section 5</a>.  </li>
+<li>If a current manifest contains entries for objects that are not within the scope of the manifest, then the out-of-scope entries SHOULD be disregarded in the context of this manifest.  If there is no other current manifest that describes these objects within that other manifest's scope, then see  <a href="#distrusted" class="xref">Section 5</a>.  </li>
 </ol>
 
 <p> </p>
@@ -528,7 +528,7 @@
 <p> </p>
 <p id="rfc.section.4.1.p.4">then the RP can conclude that no attack against the repository system has compromised the given signed object, and the signed object MUST be treated as valid (relative to manifest checking).  </p>
 <h1 id="rfc.section.5">
-<a href="#rfc.section.5">5.</a> <a href="#busted" id="busted">What to do when the CA's Publication Point is Distrusted</a>
+<a href="#rfc.section.5">5.</a> <a href="#distrusted" id="distrusted">What to do when the CA's Publication Point is Distrusted</a>
 </h1>
 <p id="rfc.section.5.p.1">Once the RP has concluded the data at the publication point is distrusted, the RP MUST remove all VRPs encompassed by the IPAddrBlocks for which "right-of-use" authority was delegated to the CA at the distrusted publication from its output, regardless of the Trust Anchors.  </p>
 <h1 id="rfc.section.6">

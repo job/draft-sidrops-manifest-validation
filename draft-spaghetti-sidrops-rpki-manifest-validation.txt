@@ -136,10 +136,10 @@ Internet-Draft        RPKI Default Manifest Policy              May 2020
    If a dangerous condition is detected, not only MUST the manifest at
    the publication point be distrusted, but all VRPs encompassed by the
    IPAddrBlocks for which authority was delegated towards the
-   Certificate Authority (CA) at the busted pulication point be removed
-   from the RP's output.  If the result is no VRPs at all (for example
-   because the RPKI subsystem is detected to be compromised at the
-   root), that is a preferred state for the Internet routing system.
+   Certificate Authority (CA) at the distrusted pulication point be
+   removed from the RP's output.  If the result is no VRPs at all (for
+   example because the RPKI subsystem is detected to be compromised at
+   the root), that is a preferred state for the Internet routing system.
    The alternative is that a compromised RPKI system will permanently
    disrupt the global Internet routing system.
 
