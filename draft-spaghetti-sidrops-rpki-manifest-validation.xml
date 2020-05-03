@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd">
+
+<?rfc sortrefs="yes"?>
+<?rfc subcompact="no"?>
+<?rfc symrefs="yes"?>
+<?rfc toc="yes"?>
+<?rfc tocdepth="3"?>
+<?rfc compact="yes"?>
+<?rfc subcompact="no"?>
+
+<rfc category="info" docName="draft-spaghetti-sidrops-rpki-manifest-validation-00" ipr="trust200902">
+
+    <front>
+
+        <title abbrev="RPKI ROV Timing">
+            A Global Policy for the use of RPKI Manifests
+        </title>
+
+        <author fullname="Job Snijders" initials="J." surname="Snijders">
+            <organization abbrev="NTT">NTT Ltd.</organization>
+            <address>
+                <postal>
+                    <street>Theodorus Majofskistraat 100</street>
+                    <code>1065 SZ</code>
+                    <city>Amsterdam</city>
+                    <country>The Netherlands</country>
+                </postal>
+                <email>job@ntt.net</email>
+            </address>
+        </author>
+
+        <date />
+
+        <abstract>
+            <t>
+                Manifests are a critical cornerstone to the global Resource Public Key Infrastructure (RPKI).
+            </t>
+            <t>
+                RFC 6486 describes a validation decision tree which introduced the notion of 'local policy', creating space for ambiguity.
+                This ambiguity has led to various RPKI implementations producing different output when presented with the same input, but also operational security implications.
+            </t>
+            <t>
+                This document updates RFC 6486 and introduces the notion of a global policy for Manifest validation to encourage harmony between implementations.
+            </t>
+        </abstract>
+
+        <note title="Requirements Language">
+
+            <t>
+                The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 <xref target="RFC2119"/> <xref target="RFC8174"/> when, and only when, they appear in all capitals, as shown here.
+            </t>
+
+        </note>
+
+    </front>
+
+    <middle>
+
+        <section anchor="intro" title="Introduction">
+            <t>
+                Manifests <xref target="RFC8416" /> are a critical cornerstone to the global Resource Public Key Infrastructure <xref target="RFC6480">RPKI</xref>.
+            </t>
+            <t>
+                RFC 6486 describes a validation decision tree which introduced the notion of 'local policy', creating space for ambiguity.
+                This ambiguity has led to various RPKI implementations producing different output when presented with the same input, but also operational security implications.
+            </t>
+            <t>
+                This document updates RFC 6486 and introduces the notion of a global policy for Manifest validation to encourage harmony between implementations.
+            </t>
+
+        </section>
+
+        <section anchor="suggested" title="Suggested Reading">
+            <t>
+                It is assumed that the reader understands BGP, <xref target="RFC4271"/>, the RPKI <xref target="RFC6480"/>, Route Origin Authorizations (ROAs) <xref target="RFC6482"/>, RPKI-based Prefix Validation, <xref target="RFC6811" />, and Origin Validation Clarifications <xref target="RFC8481" />.
+            </t>
+        </section>
+
+        <section title="The Problem">
+            <t>
+                It seems there is a mental trap in the RPKI system.
+                Contrary to intuition, we don't should perphaps not strive for validation policies to maximize the number of Validated ROA Payloads (VRPs).
+                Rather, we want to maximize the judgement-quality involved in the creation of each VRP entry and propose a single policy which is useful in a global context.
+            </t>
+            <t>
+                If a dangerous condition is detected, which indicates a VRP isn't high-quality, then the VRP should not be generated.
+                If the result is no VRPs at all (for example because the RPKI subsystem is detected to be compromised at the root), that is a preferred state for the Internet routing system.
+                The alternative is the compromised RPKI system will disrupt the global Internet routing system.
+            </t>
+        </section>
+
+        <section title="Update to RFC 6486">
+            <t>
+                This section replaces section 6 of <xref target="RFC6486"/> in its entirety.
+            </t>
+            <t>
+                The goal of an Relying Party (RP) is to determine which signed objects to use for validating assertions about INRs and their use (e.g., which VRPs to use in the construction of route filters).
+                The global Internet routing system is expected to benefit from a uniform policy, as such in the following sections we describe a sequence of tests that the RP MUST perform to determine the manifest state of the given publication point according to the global policy.
+                We then discuss the risks associated with using signed objects in the publication point, given the manifest state; we also provide suitable warning text that SHOULD be placed in a user-accessible log file.
+                Note that if a certificate is deemed unfit for use due to global policy, then any signed object that is validated using this certificate also SHOULD be deemed unfit for use (regardless of the status of the manifest at its own publication point).
+            </t>
+            <section title="Tests for Determining Manifest State">
+                <t>
+                    For a given publication point, the RP MUST perform the following tests to determine the manifest state of the publication point:
+                </t>
+                <t>
+                    <list style="numbers">
+                        <t>
+                            For each CA using this publication point, select the CA's current manifest (the "current" manifest is the manifest issued by this CA having the highest manifestNumber among all valid manifests, and where manifest validity is defined in <xref target="RFC6486">Section 4.4</xref>.
+                            If the publication point does not contain a valid manifest, see Section 6.2.  Lacking a valid manifest, the following tests cannot be performed.
+                        </t>
+                        <t>
+                            To verify completeness, an RP MAY check that every file at each publication point appears in one and only one current manifest, and that every file listed in a current manifest is published at the same publication point as the manifest.
+                        </t>
+                        <t>
+                            If there exist files at the publication point that do not appear on any manifest, or files listed in a manifest that do not appear at the publication point, then see Section 6.5, but still continue with the following test.
+                        </t>
+                        <t>
+                            Check that the current time (translated to UTC) is between thisUpdate and nextUpdate.
+                            If the current time does not lie within this interval, then see Section 6.4, but still continue with the following tests.
+                        </t>
+                        <t>
+                            Verify that the listed hash value of every file listed in each manifest matches the value obtained by hashing the file at the publication point.
+                            If the computed hash value of a file listed on the manifest does not match the hash value contained in the manifest, then see Section 6.6
+                        </t>
+                        <t>
+                            An RP MAY check that the contents of each current manifest conforms to the manifest's scope constraints, as specified in Section 2.
+                        </t>
+                        <t>
+                            If a current manifest contains entries for objects that are not within the scope of the manifest, then the out-of-scope entries SHOULD be disregarded in the context of this manifest.
+                            If there is no other current manifest that describes these objects within that other manifest's scope, then see Section 6.2.
+                        </t>
+                    </list>
+                </t>
+                <t>
+                    For each signed object, if all of the following conditions hold:
+                    <list style="list">
+                        <t>
+                            the manifest for its publication and the associated publication point pass all of the above checks;
+                        </t>
+                        <t>
+                            the signed object is valid; and
+                        </t>
+                        <t>
+                            the manifests for every certificate on the certification path used to validate the signed object and the associated publication points pass all of the above checks;
+                        </t>
+                    </list>
+                </t>
+                <t>
+                    then the RP can conclude that no attack against the repository system has compromised the given signed object, and the signed object MUST be treated as valid (relative to manifest checking).
+                </t>
+            </section>
+            <section title="Missing Manifests">
+                <t>
+                toss the publication point
+                    blacklist the delegated resources
+                </t>
+            </section>
+            <section title="Invalid Manifests">
+                <t>
+                toss the publication point
+                    blacklist the delegated resources
+                </t>
+            </section>
+            <section title="Stale Manifests">
+                <t>
+                    tosssss it
+                </t>
+            </section>
+            <section title="Mismatch between Manifest and Publication Point">
+                <t>
+                    ????
+                </t>
+            </section>
+            <section title="Mismatch between Manifest and Publication Point">
+                <t>
+                    toss it
+                </t>
+            </section>
+        </section>
+
+        <section anchor="Security" title="Security Considerations">
+
+            <t>
+                Where to start...
+            </t>
+
+        </section>
+
+        <section anchor="IANA" title="IANA Considerations">
+            <t>
+                None
+            </t>
+        </section>
+
+    </middle>
+
+    <back>
+
+        <references title="Normative References">
+            <?rfc include="reference.RFC.2119"?>
+            <?rfc include="reference.RFC.4271"?>
+            <?rfc include="reference.RFC.6486"?>
+            <?rfc include="reference.RFC.6482"?>
+            <?rfc include="reference.RFC.6811"?>
+            <?rfc include="reference.RFC.8174"?>
+            <?rfc include="reference.RFC.8416"?>
+            <?rfc include="reference.RFC.8481"?>
+        </references>
+
+        <references title="Informative References">
+            <?rfc include="reference.RFC.6480"?>
+        </references>
+
+        <section anchor="Acknowledgements" title="Acknowledgements">
+            <t>
+                The authors wish to thank
+                Rob Austein,
+                Geoff Huston,
+                Stephen Kent,
+                Matt Lepinski,
+                Martin Hoffman,
+                Randy Bush,
+                and Theo de Raadt
+                for their insights and contributions which helped create this document.
+            </t>
+        </section>
+
+    </back>
+
+</rfc>
