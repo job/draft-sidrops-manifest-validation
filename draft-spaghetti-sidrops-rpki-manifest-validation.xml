@@ -14,8 +14,8 @@
 
     <front>
 
-        <title abbrev="RPKI Manifest Policy">
-            A Global Validation Policy for the use of RPKI Manifests in the Internet Routing System.
+        <title abbrev="RPKI Default Manifest Policy">
+            A Default Validation Policy for the use of RPKI Manifests in the global Internet Routing System.
         </title>
 
         <author fullname="Job Snijders" initials="J." surname="Snijders">
@@ -82,7 +82,7 @@
             <t>
                 It seems there is a mental trap in the RPKI system: contrary to intuition, implementers should focus on validation policies which minimize the number of Validated ROA Payloads (VRPs) at a RPKI cache.
                 If RPKI cache implementers mistreat untrusted network data and 'salvage whatever is possible', a number of critical issues are introduced which compromise our ability to deploy RPKI ROV incrementally.
-                Only a single path through the RFC 6486 decision tree is suitable for use in the global Internet system, as such that path is the Global Policy.
+                Only a single path through the RFC 6486 decision tree is suitable for use in the global Internet system, as such that path is the Default Policy.
             </t>
             <t>
                 If a dangerous condition is detected, not only MUST the manifest at the publication point be distrusted, but all VRPs encompassed by the IPAddrBlocks for which authority was delegated towards the busted pulication point be removed from the RP's output.
@@ -97,9 +97,9 @@
             </t>
             <t>
                 The goal of an Relying Party (RP) is to determine which signed objects to use for validating assertions about INRs and their use (e.g., which VRPs to use in the construction of route filters).
-                The global Internet routing system is expected to benefit from a uniform policy, as such in the following sections we describe a sequence of tests that the RP MUST perform to determine the manifest state of the given publication point according to the global policy.
+                The global Internet routing system is expected to benefit from a uniform policy, as such in the following sections we describe a sequence of tests that the RP MUST perform to determine the manifest state of the given publication point according to the default policy.
                 We then discuss the risks associated with using signed objects in the publication point, given the manifest state; we also provide suitable warning text that SHOULD be placed in a user-accessible log file.
-                Note that if a certificate is deemed unfit for use due to global policy, then any signed object that is validated using this certificate also SHOULD be deemed unfit for use (regardless of the status of the manifest at its own publication point).
+                Note that if a certificate is deemed unfit for use due to default policy, then any signed object that is validated using this certificate also SHOULD be deemed unfit for use (regardless of the status of the manifest at its own publication point).
             </t>
             <section title="Tests for Determining Manifest State">
                 <t>
