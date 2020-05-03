@@ -8,7 +8,8 @@ Intended status: Informational                               May 3, 2020
 Expires: November 4, 2020
 
 
-             A Global Policy for the use of RPKI Manifests
+A Global Validation Policy for the use of RPKI Manifests in the Internet
+                            Routing System.
           draft-spaghetti-sidrops-rpki-manifest-validation-00
 
 Abstract
@@ -49,14 +50,15 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on November 4, 2020.
 
 
 
 Snijders                Expires November 4, 2020                [Page 1]
 
-Internet-Draft               RPKI ROV Timing                    May 2020
+Internet-Draft            RPKI Manifest Policy                  May 2020
 
+
+   This Internet-Draft will expire on November 4, 2020.
 
 Copyright Notice
 
@@ -107,11 +109,9 @@ Table of Contents
 
 
 
-
-
 Snijders                Expires November 4, 2020                [Page 2]
 
-Internet-Draft               RPKI ROV Timing                    May 2020
+Internet-Draft            RPKI Manifest Policy                  May 2020
 
 
    This document updates RFC 6486 and introduces the notion of a global
@@ -128,11 +128,14 @@ Internet-Draft               RPKI ROV Timing                    May 2020
 3.  The Problem
 
    It seems there is a mental trap in the RPKI system: contrary to
-   intuition, we need to focus on validation policies which minimize the
-   number of Validated ROA Payloads (VRPs) in play.  We want to maximize
-   the judgement-quality involved in the creation of each VRP entry, not
-   merely the VRP count itself, and propose a conservative single policy
-   which is useful in a global context.
+   intuition, implementers should focus on validation policies which
+   minimize the number of Validated ROA Payloads (VRPs) at a RPKI cache.
+   If RPKI cache implementers mistreat untrusted network data and
+   'salvage whatever is possible', a number of critical issues are
+   introduced which compromise our ability to deploy RPKI ROV
+   incrementally.  Only a single path through the RFC 6486 decision tree
+   is suitable for use in the global Internet system, as such that path
+   is the Global Policy.
 
    If a dangerous condition is detected, which indicates a VRP isn't
    high-quality, then the VRP should not be generated.  If the result is
@@ -162,12 +165,9 @@ Internet-Draft               RPKI ROV Timing                    May 2020
 
 
 
-
-
-
 Snijders                Expires November 4, 2020                [Page 3]
 
-Internet-Draft               RPKI ROV Timing                    May 2020
+Internet-Draft            RPKI Manifest Policy                  May 2020
 
 
 4.1.  Tests for Determining Manifest State
@@ -223,7 +223,7 @@ Internet-Draft               RPKI ROV Timing                    May 2020
 
 Snijders                Expires November 4, 2020                [Page 4]
 
-Internet-Draft               RPKI ROV Timing                    May 2020
+Internet-Draft            RPKI Manifest Policy                  May 2020
 
 
       the signed object is valid; and
@@ -279,7 +279,7 @@ Internet-Draft               RPKI ROV Timing                    May 2020
 
 Snijders                Expires November 4, 2020                [Page 5]
 
-Internet-Draft               RPKI ROV Timing                    May 2020
+Internet-Draft            RPKI Manifest Policy                  May 2020
 
 
    [RFC4271]  Rekhter, Y., Ed., Li, T., Ed., and S. Hares, Ed., "A
@@ -335,7 +335,7 @@ Appendix A.  Acknowledgements
 
 Snijders                Expires November 4, 2020                [Page 6]
 
-Internet-Draft               RPKI ROV Timing                    May 2020
+Internet-Draft            RPKI Manifest Policy                  May 2020
 
 
 Author's Address

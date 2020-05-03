@@ -14,8 +14,8 @@
 
     <front>
 
-        <title abbrev="RPKI ROV Timing">
-            A Global Policy for the use of RPKI Manifests
+        <title abbrev="RPKI Manifest Policy">
+            A Global Validation Policy for the use of RPKI Manifests in the Internet Routing System.
         </title>
 
         <author fullname="Job Snijders" initials="J." surname="Snijders">
@@ -80,8 +80,9 @@
 
         <section title="The Problem">
             <t>
-                It seems there is a mental trap in the RPKI system: contrary to intuition, we need to focus on validation policies which minimize the number of Validated ROA Payloads (VRPs) in play.
-                We want to maximize the judgement-quality involved in the creation of each VRP entry, not merely the VRP count itself, and propose a conservative single policy which is useful in a global context.
+                It seems there is a mental trap in the RPKI system: contrary to intuition, implementers should focus on validation policies which minimize the number of Validated ROA Payloads (VRPs) at a RPKI cache.
+                If RPKI cache implementers mistreat untrusted network data and 'salvage whatever is possible', a number of critical issues are introduced which compromise our ability to deploy RPKI ROV incrementally.
+                Only a single path through the RFC 6486 decision tree is suitable for use in the global Internet system, as such that path is the Global Policy.
             </t>
             <t>
                 If a dangerous condition is detected, which indicates a VRP isn't high-quality, then the VRP should not be generated.
