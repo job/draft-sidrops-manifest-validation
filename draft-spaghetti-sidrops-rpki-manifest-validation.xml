@@ -80,9 +80,8 @@
 
         <section title="The Problem">
             <t>
-                It seems there is a mental trap in the RPKI system.
-                Contrary to intuition, we should perphaps not strive for validation policies which maximize the number of Validated ROA Payloads (VRPs).
-                Rather, we want to maximize the judgement-quality involved in the creation of each VRP entry and propose a single policy which is useful in a global context.
+                It seems there is a mental trap in the RPKI system: contrary to intuition, we need to focus on validation policies which minimize the number of Validated ROA Payloads (VRPs) in play.
+                We want to maximize the judgement-quality involved in the creation of each VRP entry, not merely the VRP count itself, and propose a conservative single policy which is useful in a global context.
             </t>
             <t>
                 If a dangerous condition is detected, which indicates a VRP isn't high-quality, then the VRP should not be generated.
