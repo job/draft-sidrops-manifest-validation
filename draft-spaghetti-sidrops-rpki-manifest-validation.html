@@ -412,7 +412,7 @@
 </tr>
 <tr>
 <td class="left">Internet-Draft</td>
-<td class="right">NTT</td>
+<td class="right">NTT &amp; OpenBSD</td>
 </tr>
 <tr>
 <td class="left">Intended status: Informational</td>
@@ -539,6 +539,7 @@
 <ul>
 <li>Mention RIR transfer cases </li>
 <li>The case for a most conservative approach: a 'fail-closed' policy on the RPKI plane results in an collective ability to deploy ROV on the shared EBGP plane: as the default remains 'fail open' (aka 'pre RPKI world'), operators in turn can deploy 'invalid == reject' policies on their EBGP sessions incrementally. A brilliant strategy, however it strongly depends erring to the side of caution (distrust?) in the validation process.  </li>
+<li>A publication point should not be 'repaired' by an RP using locally cached files if the RP's pulling process resulted in a distrusted publication point. The CA publication point is a remote entity which must assume the RP has no prior knowledge of the publication point. Locally cached files only exist to reduce network load.  </li>
 </ul>
 
 <p> </p>
@@ -616,7 +617,7 @@
 		<span class="family-name">Snijders</span>
 	  </span>
 	</span>
-	<span class="org vcardline">NTT Ltd.</span>
+	<span class="org vcardline">NTT & OpenBSD </span>
 	<span class="adr">
 	  <span class="vcardline">Theodorus Majofskistraat 100</span>
 

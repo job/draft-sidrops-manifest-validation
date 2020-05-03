@@ -3,7 +3,7 @@
 
 
 Network Working Group                                        J. Snijders
-Internet-Draft                                                       NTT
+Internet-Draft                                             NTT & OpenBSD
 Intended status: Informational                               May 3, 2020
 Expires: November 4, 2020
 
@@ -85,10 +85,10 @@ Table of Contents
    5.  What to do when the CA's Publication Point is Distrusted  . .   5
    6.  TODO  . . . . . . . . . . . . . . . . . . . . . . . . . . . .   5
    7.  Security Considerations . . . . . . . . . . . . . . . . . . .   5
-   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   5
-   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   5
-     9.1.  Normative References  . . . . . . . . . . . . . . . . . .   5
-     9.2.  Informative References  . . . . . . . . . . . . . . . . .   6
+   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   6
+   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   6
+     9.1.  Normative References  . . . . . . . . . . . . . . . . . .   6
+     9.2.  Informative References  . . . . . . . . . . . . . . . . .   7
    Appendix A.  Acknowledgements . . . . . . . . . . . . . . . . . .   7
    Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   7
 
@@ -259,17 +259,17 @@ Internet-Draft        RPKI Default Manifest Policy              May 2020
       brilliant strategy, however it strongly depends erring to the side
       of caution (distrust?) in the validation process.
 
+   o  A publication point should not be 'repaired' by an RP using
+      locally cached files if the RP's pulling process resulted in a
+      distrusted publication point.  The CA publication point is a
+      remote entity which must assume the RP has no prior knowledge of
+      the publication point.  Locally cached files only exist to reduce
+      network load.
+
 7.  Security Considerations
 
    ... where to start
 
-8.  IANA Considerations
-
-   None
-
-9.  References
-
-9.1.  Normative References
 
 
 
@@ -281,6 +281,14 @@ Snijders                Expires November 4, 2020                [Page 5]
 
 Internet-Draft        RPKI Default Manifest Policy              May 2020
 
+
+8.  IANA Considerations
+
+   None
+
+9.  References
+
+9.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -321,14 +329,6 @@ Internet-Draft        RPKI Default Manifest Policy              May 2020
               DOI 10.17487/RFC8481, September 2018,
               <https://www.rfc-editor.org/info/rfc8481>.
 
-9.2.  Informative References
-
-   [RFC6480]  Lepinski, M. and S. Kent, "An Infrastructure to Support
-              Secure Internet Routing", RFC 6480, DOI 10.17487/RFC6480,
-              February 2012, <https://www.rfc-editor.org/info/rfc6480>.
-
-
-
 
 
 
@@ -337,6 +337,12 @@ Snijders                Expires November 4, 2020                [Page 6]
 
 Internet-Draft        RPKI Default Manifest Policy              May 2020
 
+
+9.2.  Informative References
+
+   [RFC6480]  Lepinski, M. and S. Kent, "An Infrastructure to Support
+              Secure Internet Routing", RFC 6480, DOI 10.17487/RFC6480,
+              February 2012, <https://www.rfc-editor.org/info/rfc6480>.
 
 Appendix A.  Acknowledgements
 
@@ -347,18 +353,12 @@ Appendix A.  Acknowledgements
 Author's Address
 
    Job Snijders
-   NTT Ltd.
+   NTT & OpenBSD
    Theodorus Majofskistraat 100
    Amsterdam  1065 SZ
    The Netherlands
 
    Email: job@ntt.net
-
-
-
-
-
-
 
 
 
