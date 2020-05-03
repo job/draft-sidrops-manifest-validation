@@ -20,10 +20,10 @@ Abstract
    RFC 6486 describes a validation decision tree which introduced the
    notion of 'local policy', creating space for ambiguity.  This
    ambiguity has led to various RPKI implementations producing different
-   output when presented with the same input, but also operational
-   security implications.
+   output when presented with the same input, but also leads to severe
+   operational security implications.
 
-   This document updates RFC 6486 and introduces the notion of a global
+   This document updates RFC 6486 and introduces the notion of a default
    policy for Manifest validation to encourage harmony between
    implementations.
 

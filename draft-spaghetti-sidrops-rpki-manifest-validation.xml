@@ -85,7 +85,7 @@
                 Only a single path through the RFC 6486 decision tree is suitable for use in the global Internet system, as such that path is the Default Policy.
             </t>
             <t>
-                If a dangerous condition is detected, not only MUST the manifest at the publication point be distrusted, but all VRPs encompassed by the IPAddrBlocks for which authority was delegated towards the Certificate Authority (CA) at the busted pulication point be removed from the RP's output.
+                If a dangerous condition is detected, not only MUST the manifest at the publication point be distrusted, but all VRPs encompassed by the IPAddrBlocks for which authority was delegated towards the Certificate Authority (CA) at the distrusted pulication point be removed from the RP's output.
                 If the result is no VRPs at all (for example because the RPKI subsystem is detected to be compromised at the root), that is a preferred state for the Internet routing system.
                 The alternative is that a compromised RPKI system will permanently disrupt the global Internet routing system.
             </t>
@@ -109,7 +109,7 @@
                     <list style="numbers">
                         <t>
                             For each CA using this publication point, select the CA's current manifest (the "current" manifest is the manifest issued by this CA having the highest manifestNumber among all valid manifests, and where manifest validity is defined in <xref target="RFC6486">Section 4.4</xref>.
-                            If the publication point does not contain a valid manifest, see <xref target="busted"/>.
+                            If the publication point does not contain a valid manifest, see <xref target="distrusted"/>.
                             Lacking a valid manifest, the following tests cannot be performed.
                         </t>
                         <t>
@@ -119,22 +119,22 @@
                             If files exist at the publication point that do not appear on any manifest, those can be ignored.
                         </t>
                         <t>
-                            If files are listed in a manifest that do not appear at the publication point, see <xref target="busted" />.
+                            If files are listed in a manifest that do not appear at the publication point, see <xref target="distrusted" />.
                         </t>
                         <t>
                             Check that the current time (translated to UTC) is between thisUpdate and nextUpdate.
-                            If the current time does not lie within this interval, then see <xref target="busted" />, but still continue with the following tests.
+                            If the current time does not lie within this interval, then see <xref target="distrusted" />, but still continue with the following tests.
                         </t>
                         <t>
                             Verify that the listed hash value of every file listed in each manifest matches the value obtained by hashing the file at the publication point.
-                            If the computed hash value of a file listed on the manifest does not match the hash value contained in the manifest, then see <xref target="busted" />.
+                            If the computed hash value of a file listed on the manifest does not match the hash value contained in the manifest, then see <xref target="distrusted" />.
                         </t>
                         <t>
                             An RP MUST check that the contents of each current manifest conforms to the manifest's scope constraints, as specified in Section 2.
                         </t>
                         <t>
                             If a current manifest contains entries for objects that are not within the scope of the manifest, then the out-of-scope entries SHOULD be disregarded in the context of this manifest.
-                            If there is no other current manifest that describes these objects within that other manifest's scope, then see  <xref target="busted" />.
+                            If there is no other current manifest that describes these objects within that other manifest's scope, then see  <xref target="distrusted" />.
                         </t>
                     </list>
                 </t>
@@ -158,7 +158,7 @@
             </section>
         </section>
 
-        <section anchor="busted" title="What to do when the CA's Publication Point is Distrusted">
+        <section anchor="distrusted" title="What to do when the CA's Publication Point is Distrusted">
             <t>
                 Once the RP has concluded the data at the publication point is distrusted, the RP MUST remove all VRPs encompassed by the IPAddrBlocks for which "right-of-use" authority was delegated to the CA at the distrusted publication from its output, regardless of the Trust Anchors.
             </t>
