@@ -241,7 +241,11 @@ Internet-Draft        RPKI Default Manifest Policy              May 2020
 
 5.  What to do when the CA's Publication Point is Distrusted
 
-   toss the publication point blacklist the delegated resources
+   Once the RP has concluded the data at the publication point is
+   distrusted, the RP MUST remove all VRPs encompassed by the
+   IPAddrBlocks for which authority was delegated to the distrusted
+   publication from its output, regardless of the Authoritative Trust
+   Anchor.
 
 6.  Security Considerations
 
@@ -270,10 +274,6 @@ Internet-Draft        RPKI Default Manifest Policy              May 2020
               DOI 10.17487/RFC6482, February 2012,
               <https://www.rfc-editor.org/info/rfc6482>.
 
-   [RFC6486]  Austein, R., Huston, G., Kent, S., and M. Lepinski,
-              "Manifests for the Resource Public Key Infrastructure
-              (RPKI)", RFC 6486, DOI 10.17487/RFC6486, February 2012,
-              <https://www.rfc-editor.org/info/rfc6486>.
 
 
 
@@ -281,6 +281,11 @@ Snijders                Expires November 4, 2020                [Page 5]
 
 Internet-Draft        RPKI Default Manifest Policy              May 2020
 
+
+   [RFC6486]  Austein, R., Huston, G., Kent, S., and M. Lepinski,
+              "Manifests for the Resource Public Key Infrastructure
+              (RPKI)", RFC 6486, DOI 10.17487/RFC6486, February 2012,
+              <https://www.rfc-editor.org/info/rfc6486>.
 
    [RFC6811]  Mohapatra, P., Scudder, J., Ward, D., Bush, R., and R.
               Austein, "BGP Prefix Origin Validation", RFC 6811,
@@ -322,11 +327,6 @@ Author's Address
    The Netherlands
 
    Email: job@ntt.net
-
-
-
-
-
 
 
 
