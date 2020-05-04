@@ -91,6 +91,22 @@
             </t>
         </section>
 
+        <section title="Examples of Problematic Behavior">
+            <section title="AS0 and Delegation">
+                <t>
+			Suppose that an address space holder of 2001:DB8::/32 delegates prefixes to multihomed end users.
+			Operationally, it is not sensible that the 2001:DB8::/32 be advertised or accepted, so the address space holder creates exactly one ROA for 2001:DB8::/32 with asID set to 0. Finally, the address space holder creates ROAs for the /48 (prefix, ASN) pairs, as delegated.
+                </t>
+                <!-- show example manifest here -->
+                <t>
+			At this point, the manifest includes a mininum of two ROAs, but only one is being received by the RPKI cache (specifically, the 2001:DB8::/32 AS0 ROA, not the other more-specific ROAs). The result of this is that the longer-prefix advertisement of (example delegation) by AS(example ASN) is invalid if the 2001:DB8::/32 ROA AS0 transformed into a VRP by the RPKI cache.
+		</t>
+		<t>
+			RPKI caches would damage the network if the above scenario would happen.
+		</t>
+            </section>
+        </section>
+
         <section title="Update to RFC 6486">
             <t>
                 This section replaces section 6 of <xref target="RFC6486"/> in its entirety.
@@ -171,10 +187,13 @@
                         Mention RIR transfer cases
                     </t>
                     <t>
-                        The case for a most conservative approach: a 'fail-closed' policy on the RPKI plane results in an collective ability to deploy ROV on the shared EBGP plane: as the default remains 'fail open' (aka 'pre RPKI world'), operators in turn can deploy 'invalid == reject' policies on their EBGP sessions incrementally. A brilliant strategy, however it strongly depends erring to the side of caution (distrust?) in the validation process.
+                        The case for a most conservative approach: a 'fail-closed' policy on the RPKI plane results in an collective ability to deploy ROV on the shared EBGP plane: as the default remains 'fail open' (aka 'pre RPKI world'), operators in turn can deploy 'invalid == reject' policies on their EBGP sessions incrementally.
+                        A brilliant strategy, however it strongly depends erring to the side of caution (distrust?) in the validation process.
                     </t>
                     <t>
-                        A publication point should not be 'repaired' by an RP using locally cached files if the RP's pulling process resulted in a distrusted publication point. The CA publication point is a remote entity which must assume the RP has no prior knowledge of the publication point. Locally cached files only exist to reduce network load.
+                        A publication point should not be 'repaired' by an RP using locally cached files if the RP's pulling process resulted in a distrusted publication point.
+                        The CA publication point is a remote entity which must assume the RP has no prior knowledge of the publication point.
+                        Locally cached files only exist to reduce network load.
                     </t>
                 </list>
             </t>
