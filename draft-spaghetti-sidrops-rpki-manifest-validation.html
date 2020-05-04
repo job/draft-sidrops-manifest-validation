@@ -377,25 +377,27 @@
 <link href="#rfc.section.1" rel="Chapter" title="1 Introduction">
 <link href="#rfc.section.2" rel="Chapter" title="2 Suggested Reading">
 <link href="#rfc.section.3" rel="Chapter" title="3 The Problem">
-<link href="#rfc.section.4" rel="Chapter" title="4 Update to RFC 6486">
-<link href="#rfc.section.4.1" rel="Chapter" title="4.1 Tests for Determining Manifest State">
-<link href="#rfc.section.5" rel="Chapter" title="5 What to do when the CA's Publication Point is Distrusted">
-<link href="#rfc.section.6" rel="Chapter" title="6 TODO">
-<link href="#rfc.section.7" rel="Chapter" title="7 Security Considerations">
-<link href="#rfc.section.8" rel="Chapter" title="8 IANA Considerations">
-<link href="#rfc.references" rel="Chapter" title="9 References">
-<link href="#rfc.references.1" rel="Chapter" title="9.1 Normative References">
-<link href="#rfc.references.2" rel="Chapter" title="9.2 Informative References">
+<link href="#rfc.section.4" rel="Chapter" title="4 Examples of Problematic Behavior">
+<link href="#rfc.section.4.1" rel="Chapter" title="4.1 AS0 and Delegation">
+<link href="#rfc.section.5" rel="Chapter" title="5 Update to RFC 6486">
+<link href="#rfc.section.5.1" rel="Chapter" title="5.1 Tests for Determining Manifest State">
+<link href="#rfc.section.6" rel="Chapter" title="6 What to do when the CA's Publication Point is Distrusted">
+<link href="#rfc.section.7" rel="Chapter" title="7 TODO">
+<link href="#rfc.section.8" rel="Chapter" title="8 Security Considerations">
+<link href="#rfc.section.9" rel="Chapter" title="9 IANA Considerations">
+<link href="#rfc.references" rel="Chapter" title="10 References">
+<link href="#rfc.references.1" rel="Chapter" title="10.1 Normative References">
+<link href="#rfc.references.2" rel="Chapter" title="10.2 Informative References">
 <link href="#rfc.appendix.A" rel="Chapter" title="A Acknowledgements">
 <link href="#rfc.authors" rel="Chapter">
 
 
-  <meta name="generator" content="xml2rfc version 2.44.0 - https://tools.ietf.org/tools/xml2rfc" />
+  <meta name="generator" content="xml2rfc version 2.42.0 - https://tools.ietf.org/tools/xml2rfc" />
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
   <meta name="dct.creator" content="Snijders, J." />
   <meta name="dct.identifier" content="urn:ietf:id:draft-spaghetti-sidrops-rpki-manifest-validation-00" />
-  <meta name="dct.issued" scheme="ISO8601" content="2020-03" />
+  <meta name="dct.issued" scheme="ISO8601" content="2020-04" />
   <meta name="dct.abstract" content="Manifests are a critical cornerstone to the global Resource Public Key Infrastructure (RPKI).   RFC 6486 describes a validation decision tree which introduced the notion of &#x27;local policy&#x27;, creating space for ambiguity.  This ambiguity has led to various RPKI implementations producing different output when presented with the same input, but also leads to severe operational security implications.   This document updates RFC 6486 and introduces the notion of a default policy for Manifest validation to encourage harmony between implementations.   " />
   <meta name="description" content="Manifests are a critical cornerstone to the global Resource Public Key Infrastructure (RPKI).   RFC 6486 describes a validation decision tree which introduced the notion of &#x27;local policy&#x27;, creating space for ambiguity.  This ambiguity has led to various RPKI implementations producing different output when presented with the same input, but also leads to severe operational security implications.   This document updates RFC 6486 and introduces the notion of a default policy for Manifest validation to encourage harmony between implementations.   " />
 
@@ -416,10 +418,10 @@
 </tr>
 <tr>
 <td class="left">Intended status: Informational</td>
-<td class="right">May 3, 2020</td>
+<td class="right">May 4, 2020</td>
 </tr>
 <tr>
-<td class="left">Expires: November 4, 2020</td>
+<td class="left">Expires: November 5, 2020</td>
 <td class="right"></td>
 </tr>
 
@@ -440,7 +442,7 @@
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on November 4, 2020.</p>
+<p>This Internet-Draft will expire on November 5, 2020.</p>
 <h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
 <p>Copyright (c) 2020 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
 <p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
@@ -456,23 +458,27 @@
 </li>
 <li>3.   <a href="#rfc.section.3">The Problem</a>
 </li>
-<li>4.   <a href="#rfc.section.4">Update to RFC 6486</a>
+<li>4.   <a href="#rfc.section.4">Examples of Problematic Behavior</a>
 </li>
-<ul><li>4.1.   <a href="#rfc.section.4.1">Tests for Determining Manifest State</a>
+<ul><li>4.1.   <a href="#rfc.section.4.1">AS0 and Delegation</a>
 </li>
-</ul><li>5.   <a href="#rfc.section.5">What to do when the CA's Publication Point is Distrusted</a>
+</ul><li>5.   <a href="#rfc.section.5">Update to RFC 6486</a>
 </li>
-<li>6.   <a href="#rfc.section.6">TODO</a>
+<ul><li>5.1.   <a href="#rfc.section.5.1">Tests for Determining Manifest State</a>
 </li>
-<li>7.   <a href="#rfc.section.7">Security Considerations</a>
+</ul><li>6.   <a href="#rfc.section.6">What to do when the CA's Publication Point is Distrusted</a>
 </li>
-<li>8.   <a href="#rfc.section.8">IANA Considerations</a>
+<li>7.   <a href="#rfc.section.7">TODO</a>
 </li>
-<li>9.   <a href="#rfc.references">References</a>
+<li>8.   <a href="#rfc.section.8">Security Considerations</a>
 </li>
-<ul><li>9.1.   <a href="#rfc.references.1">Normative References</a>
+<li>9.   <a href="#rfc.section.9">IANA Considerations</a>
 </li>
-<li>9.2.   <a href="#rfc.references.2">Informative References</a>
+<li>10.   <a href="#rfc.references">References</a>
+</li>
+<ul><li>10.1.   <a href="#rfc.references.1">Normative References</a>
+</li>
+<li>10.2.   <a href="#rfc.references.2">Informative References</a>
 </li>
 </ul><li>Appendix A.   <a href="#rfc.appendix.A">Acknowledgements</a>
 </li>
@@ -497,27 +503,34 @@
 <p id="rfc.section.3.p.1">It seems there is a mental trap in the RPKI system: contrary to intuition, implementers should focus on validation policies which minimize the number of Validated ROA Payloads (VRPs) at a RPKI cache.  If RPKI cache implementers mistreat untrusted network data and 'salvage whatever is possible', a number of critical issues are introduced which compromise our ability to deploy RPKI ROV incrementally.  Only a single path through the RFC 6486 decision tree is suitable for use in the global Internet system, as such that path is the Default Policy.  </p>
 <p id="rfc.section.3.p.2">If a dangerous condition is detected, not only MUST the manifest at the publication point be distrusted, but all VRPs encompassed by the IPAddrBlocks for which authority was delegated towards the Certificate Authority (CA) at the distrusted pulication point be removed from the RP's output.  If the result is no VRPs at all (for example because the RPKI subsystem is detected to be compromised at the root), that is a preferred state for the Internet routing system.  The alternative is that a compromised RPKI system will permanently disrupt the global Internet routing system.  </p>
 <h1 id="rfc.section.4">
-<a href="#rfc.section.4">4.</a> Update to RFC 6486</h1>
-<p id="rfc.section.4.p.1">This section replaces section 6 of <a href="#RFC6486" class="xref">[RFC6486]</a> in its entirety.  </p>
-<p id="rfc.section.4.p.2">The goal of an Relying Party (RP) is to determine which signed objects to use for validating assertions about INRs and their use (e.g., which VRPs to use in the construction of route filters).  The global Internet routing system is expected to benefit from uniform application of a similar validation policy, as such in the following sections we describe a sequence of tests that the RP MUST perform to determine the manifest state of the given publication point according to the default policy.  We then discuss the risks associated with using signed objects in the publication point, given the manifest state; we also provide suitable warning text that SHOULD be placed in a user-accessible log file.  Note that if a certificate is deemed unfit for use due to default policy, then any signed object that is validated using this certificate also SHOULD be deemed unfit for use (regardless of the status of the manifest at its own publication point).  </p>
+<a href="#rfc.section.4">4.</a> Examples of Problematic Behavior</h1>
 <h1 id="rfc.section.4.1">
-<a href="#rfc.section.4.1">4.1.</a> Tests for Determining Manifest State</h1>
-<p id="rfc.section.4.1.p.1">For a given publication point, the RP MUST perform the following tests to determine the manifest state of the publication point: </p>
+<a href="#rfc.section.4.1">4.1.</a> AS0 and Delegation</h1>
+<p id="rfc.section.4.1.p.1">Suppose that an address space holder of 2001:DB8::/32 delegates prefixes to multihomed end users.  Operationally, it is not sensible that the 2001:DB8::/32 be advertised or accepted, so the address space holder creates exactly one ROA for 2001:DB8::/32 with asID set to 0. Finally, the address space holder creates ROAs for the /48 (prefix, ASN) pairs, as delegated.  </p>
+<p id="rfc.section.4.1.p.2">At this point, the manifest includes a mininum of two ROAs, but only one is being received by the RPKI cache (specifically, the 2001:DB8::/32 AS0 ROA, not the other more-specific ROAs). The result of this is that the longer-prefix advertisement of (example delegation) by AS(example ASN) is invalid if the 2001:DB8::/32 ROA AS0 transformed into a VRP by the RPKI cache.  </p>
+<p id="rfc.section.4.1.p.3">RPKI caches would damage the network if the above scenario would happen.  </p>
+<h1 id="rfc.section.5">
+<a href="#rfc.section.5">5.</a> Update to RFC 6486</h1>
+<p id="rfc.section.5.p.1">This section replaces section 6 of <a href="#RFC6486" class="xref">[RFC6486]</a> in its entirety.  </p>
+<p id="rfc.section.5.p.2">The goal of an Relying Party (RP) is to determine which signed objects to use for validating assertions about INRs and their use (e.g., which VRPs to use in the construction of route filters).  The global Internet routing system is expected to benefit from uniform application of a similar validation policy, as such in the following sections we describe a sequence of tests that the RP MUST perform to determine the manifest state of the given publication point according to the default policy.  We then discuss the risks associated with using signed objects in the publication point, given the manifest state; we also provide suitable warning text that SHOULD be placed in a user-accessible log file.  Note that if a certificate is deemed unfit for use due to default policy, then any signed object that is validated using this certificate also SHOULD be deemed unfit for use (regardless of the status of the manifest at its own publication point).  </p>
+<h1 id="rfc.section.5.1">
+<a href="#rfc.section.5.1">5.1.</a> Tests for Determining Manifest State</h1>
+<p id="rfc.section.5.1.p.1">For a given publication point, the RP MUST perform the following tests to determine the manifest state of the publication point: </p>
 <p></p>
 
 <ol>
-<li>For each CA using this publication point, select the CA's current manifest (the "current" manifest is the manifest issued by this CA having the highest manifestNumber among all valid manifests, and where manifest validity is defined in <a href="#RFC6486" class="xref">Section 4.4</a>.  If the publication point does not contain a valid manifest, see <a href="#distrusted" class="xref">Section 5</a>.  Lacking a valid manifest, the following tests cannot be performed.  </li>
+<li>For each CA using this publication point, select the CA's current manifest (the "current" manifest is the manifest issued by this CA having the highest manifestNumber among all valid manifests, and where manifest validity is defined in <a href="#RFC6486" class="xref">Section 4.4</a>.  If the publication point does not contain a valid manifest, see <a href="#distrusted" class="xref">Section 6</a>.  Lacking a valid manifest, the following tests cannot be performed.  </li>
 <li>To verify completeness, an RP MUST check that every file at each publication point appears in one and only one current manifest, and that every file listed in a current manifest is published at the same publication point as the manifest.  </li>
 <li>If files exist at the publication point that do not appear on any manifest, those can be ignored.  </li>
-<li>If files are listed in a manifest that do not appear at the publication point, see <a href="#distrusted" class="xref">Section 5</a>.  </li>
-<li>Check that the current time (translated to UTC) is between thisUpdate and nextUpdate.  If the current time does not lie within this interval, then see <a href="#distrusted" class="xref">Section 5</a>, but still continue with the following tests.  </li>
-<li>Verify that the listed hash value of every file listed in each manifest matches the value obtained by hashing the file at the publication point.  If the computed hash value of a file listed on the manifest does not match the hash value contained in the manifest, then see <a href="#distrusted" class="xref">Section 5</a>.  </li>
+<li>If files are listed in a manifest that do not appear at the publication point, see <a href="#distrusted" class="xref">Section 6</a>.  </li>
+<li>Check that the current time (translated to UTC) is between thisUpdate and nextUpdate.  If the current time does not lie within this interval, then see <a href="#distrusted" class="xref">Section 6</a>, but still continue with the following tests.  </li>
+<li>Verify that the listed hash value of every file listed in each manifest matches the value obtained by hashing the file at the publication point.  If the computed hash value of a file listed on the manifest does not match the hash value contained in the manifest, then see <a href="#distrusted" class="xref">Section 6</a>.  </li>
 <li>An RP MUST check that the contents of each current manifest conforms to the manifest's scope constraints, as specified in Section 2.  </li>
-<li>If a current manifest contains entries for objects that are not within the scope of the manifest, then the out-of-scope entries SHOULD be disregarded in the context of this manifest.  If there is no other current manifest that describes these objects within that other manifest's scope, then see  <a href="#distrusted" class="xref">Section 5</a>.  </li>
+<li>If a current manifest contains entries for objects that are not within the scope of the manifest, then the out-of-scope entries SHOULD be disregarded in the context of this manifest.  If there is no other current manifest that describes these objects within that other manifest's scope, then see  <a href="#distrusted" class="xref">Section 6</a>.  </li>
 </ol>
 
 <p> </p>
-<p id="rfc.section.4.1.p.3">For each signed object, if all of the following conditions hold: </p>
+<p id="rfc.section.5.1.p.3">For each signed object, if all of the following conditions hold: </p>
 
 <ul class="empty">
 <li>the manifest for its publication and the associated publication point pass all of the above checks; </li>
@@ -526,35 +539,35 @@
 </ul>
 
 <p> </p>
-<p id="rfc.section.4.1.p.4">then the RP can conclude that no attack against the repository system has compromised the given signed object, and the signed object MUST be treated as valid (relative to manifest checking).  </p>
-<h1 id="rfc.section.5">
-<a href="#rfc.section.5">5.</a> <a href="#distrusted" id="distrusted">What to do when the CA's Publication Point is Distrusted</a>
-</h1>
-<p id="rfc.section.5.p.1">Once the RP has concluded the data at the publication point is distrusted, the RP MUST remove all VRPs encompassed by the IPAddrBlocks for which "right-of-use" authority was delegated to the CA at the distrusted publication from its output, regardless of the Trust Anchors.  </p>
+<p id="rfc.section.5.1.p.4">then the RP can conclude that no attack against the repository system has compromised the given signed object, and the signed object MUST be treated as valid (relative to manifest checking).  </p>
 <h1 id="rfc.section.6">
-<a href="#rfc.section.6">6.</a> <a href="#TODO" id="TODO">TODO</a>
+<a href="#rfc.section.6">6.</a> <a href="#distrusted" id="distrusted">What to do when the CA's Publication Point is Distrusted</a>
+</h1>
+<p id="rfc.section.6.p.1">Once the RP has concluded the data at the publication point is distrusted, the RP MUST remove all VRPs encompassed by the IPAddrBlocks for which "right-of-use" authority was delegated to the CA at the distrusted publication from its output, regardless of the Trust Anchors.  </p>
+<h1 id="rfc.section.7">
+<a href="#rfc.section.7">7.</a> <a href="#TODO" id="TODO">TODO</a>
 </h1>
 <p></p>
 
 <ul>
 <li>Mention RIR transfer cases </li>
-<li>The case for a most conservative approach: a 'fail-closed' policy on the RPKI plane results in an collective ability to deploy ROV on the shared EBGP plane: as the default remains 'fail open' (aka 'pre RPKI world'), operators in turn can deploy 'invalid == reject' policies on their EBGP sessions incrementally. A brilliant strategy, however it strongly depends erring to the side of caution (distrust?) in the validation process.  </li>
-<li>A publication point should not be 'repaired' by an RP using locally cached files if the RP's pulling process resulted in a distrusted publication point. The CA publication point is a remote entity which must assume the RP has no prior knowledge of the publication point. Locally cached files only exist to reduce network load.  </li>
+<li>The case for a most conservative approach: a 'fail-closed' policy on the RPKI plane results in an collective ability to deploy ROV on the shared EBGP plane: as the default remains 'fail open' (aka 'pre RPKI world'), operators in turn can deploy 'invalid == reject' policies on their EBGP sessions incrementally.  A brilliant strategy, however it strongly depends erring to the side of caution (distrust?) in the validation process.  </li>
+<li>A publication point should not be 'repaired' by an RP using locally cached files if the RP's pulling process resulted in a distrusted publication point.  The CA publication point is a remote entity which must assume the RP has no prior knowledge of the publication point.  Locally cached files only exist to reduce network load.  </li>
 </ul>
 
 <p> </p>
-<h1 id="rfc.section.7">
-<a href="#rfc.section.7">7.</a> <a href="#Security" id="Security">Security Considerations</a>
-</h1>
-<p id="rfc.section.7.p.1">... where to start </p>
 <h1 id="rfc.section.8">
-<a href="#rfc.section.8">8.</a> <a href="#IANA" id="IANA">IANA Considerations</a>
+<a href="#rfc.section.8">8.</a> <a href="#Security" id="Security">Security Considerations</a>
 </h1>
-<p id="rfc.section.8.p.1">None </p>
+<p id="rfc.section.8.p.1">... where to start </p>
+<h1 id="rfc.section.9">
+<a href="#rfc.section.9">9.</a> <a href="#IANA" id="IANA">IANA Considerations</a>
+</h1>
+<p id="rfc.section.9.p.1">None </p>
 <h1 id="rfc.references">
-<a href="#rfc.references">9.</a> References</h1>
+<a href="#rfc.references">10.</a> References</h1>
 <h1 id="rfc.references.1">
-<a href="#rfc.references.1">9.1.</a> Normative References</h1>
+<a href="#rfc.references.1">10.1.</a> Normative References</h1>
 <table><tbody>
 <tr>
 <td class="reference"><b id="RFC2119">[RFC2119]</b></td>
@@ -598,7 +611,7 @@
 </tr>
 </tbody></table>
 <h1 id="rfc.references.2">
-<a href="#rfc.references.2">9.2.</a> Informative References</h1>
+<a href="#rfc.references.2">10.2.</a> Informative References</h1>
 <table><tbody><tr>
 <td class="reference"><b id="RFC6480">[RFC6480]</b></td>
 <td class="top">
