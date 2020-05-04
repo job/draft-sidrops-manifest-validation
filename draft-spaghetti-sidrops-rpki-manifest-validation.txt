@@ -3,14 +3,14 @@
 
 
 Network Working Group                                        J. Snijders
-Internet-Draft                                             NTT & OpenBSD
+Internet-Draft                                                       NTT
 Intended status: Informational                               May 4, 2020
 Expires: November 5, 2020
 
 
 A Default Validation Policy for the use of RPKI Manifests in the global
                         Internet Routing System.
-          draft-spaghetti-sidrops-rpki-manifest-validation-00
+          draft-spaghetti-sidrops-rpki-manifest-validation-01
 
 Abstract
 
@@ -371,19 +371,19 @@ Internet-Draft        RPKI Default Manifest Policy              May 2020
 Appendix A.  Acknowledgements
 
    The authors wish to thank Rob Austein, Geoff Huston, Stephen Kent,
-   Matt Lepinski, Martin Hoffman, Randy Bush, and Theo de Raadt for
-   their insights and contributions which helped create this document.
+   Matt Lepinski, Martin Hoffman, Randy Bush, Theo de Raadt, William
+   McCall for their insights and contributions which helped create this
+   document.
 
 Author's Address
 
    Job Snijders
-   NTT & OpenBSD
+   NTT Ltd
    Theodorus Majofskistraat 100
    Amsterdam  1065 SZ
    The Netherlands
 
    Email: job@ntt.net
-
 
 
 
